@@ -1,4 +1,4 @@
-# AndroidTVNotification
+# AndroidTV Notification
 Notifications for Android TV!
 
 This is a multi-faceted project that will:
