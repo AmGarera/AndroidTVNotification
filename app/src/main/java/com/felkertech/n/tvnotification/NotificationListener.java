@@ -8,9 +8,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
+import com.felkertech.n.tvnotification.utils.Popup;
+
+import java.util.ArrayList;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -64,14 +69,22 @@ public class NotificationListener extends NotificationListenerService {
                 i1.putExtra("notification_event","=====================");
                 sendBroadcast(i1);
                 int i=1;
-                for (StatusBarNotification sbn : NotificationListener.this.getActiveNotifications()) {
-                    Notification n = sbn.getNotification().publicVersion;
-                    Intent i2 = new  Intent("com.felkertech.n.tvnotification.NOTIFICATION_LISTENER_EXAMPLE");
-                    String output = i +" " + sbn.getPackageName() + "\n";
-                    output += "Priority "+n.priority+"; Actions "+n.actions[0].title+"; Color "+n.color;
+                ArrayList<Popup> p = new ArrayList<>();
+                try {
+                    for (StatusBarNotification sbn : getActiveNotifications()) {
+                        Popup pp = new Popup(sbn, i);
+                        p.add(pp);
+                        Intent i2 = new Intent("com.felkertech.n.tvnotification.NOTIFICATION_LISTENER_EXAMPLE");
+                        String output = pp.toString();
+                        i2.putExtra("notification_event", output);
+                        sendBroadcast(i2);
+                        i++;
+                    }
+                } catch (Exception e) {
+                    Intent i2 = new Intent("com.felkertech.n.tvnotification.NOTIFICATION_LISTENER_EXAMPLE");
+                    String output = e.getMessage();
                     i2.putExtra("notification_event", output);
                     sendBroadcast(i2);
-                    i++;
                 }
                 Intent i3 = new  Intent("com.felkertech.n.tvnotification.NOTIFICATION_LISTENER_EXAMPLE");
                 i3.putExtra("notification_event","===== Notification List ====");

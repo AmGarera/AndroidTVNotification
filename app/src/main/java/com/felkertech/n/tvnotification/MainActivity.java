@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -28,6 +29,7 @@ public class MainActivity extends Activity {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.felkertech.n.tvnotification.NOTIFICATION_LISTENER_EXAMPLE");
         registerReceiver(nReceiver,filter);
+        Toast.makeText(this, "V5", Toast.LENGTH_SHORT).show();
     }
 
     @Override
