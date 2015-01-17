@@ -8,5 +8,8 @@ This is a multi-faceted project that will:
 * Utilize a library to send various types of data to Android TV, which is received in a custom way through a receiver
 
 ### Changelog
-#### 1/16 
+#### 17 Jan
+    Fixed lists, improved output
+    
+#### 16 Jan
     Started project
