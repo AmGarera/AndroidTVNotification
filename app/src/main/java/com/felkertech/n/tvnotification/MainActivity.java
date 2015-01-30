@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
             case R.id.btnSettings:
                 i =new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 startActivity(i);
-                return;
+
         }
     }
 
