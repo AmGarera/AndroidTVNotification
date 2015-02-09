@@ -95,4 +95,8 @@ public class Alert {
         b.putParcelable("BITMAP", bitmap);
         return b;
     }
+    @Override
+    public String toString() {
+        return "Alert {title="+title+", text="+text+", color="+color+", priority="+priority+", category="+category+", visibility="+visibility+", icon="+icon+"}";
+    }
 }

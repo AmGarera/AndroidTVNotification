@@ -42,13 +42,16 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
 
         Log.i(TAG,"**********  onNotificationPosted");
-        Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText + "t" + sbn.getPackageName());
+        Log.i(TAG,"ID :" + sbn.getId() + " " + sbn.getNotification().tickerText + " " + sbn.getPackageName());
         Intent i = new  Intent("com.felkertech.n.tvnotification.NOTIFICATION_LISTENER_EXAMPLE");
         i.putExtra("notification_event","onNotificationPosted :" + sbn.getPackageName() + "n");
         sendBroadcast(i);
-
-        Alert note = new Popup(sbn).publicAlert();
-
+        Log.d(TAG, ""+sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TITLE).toString());
+        Popup p = new Popup(sbn);
+        Log.d(TAG, p.title+"");
+        Log.d(TAG, p.toString());
+        Alert note = p.publicAlert();
+        Log.d(TAG, note.toString());
         Intent popup = new Intent(getApplicationContext(), Chathead.class);
         popup.putExtra("VALUE", note.toBundle());
         startService(popup);

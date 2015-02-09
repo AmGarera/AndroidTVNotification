@@ -30,7 +30,8 @@
                 android:textColor="#efefef"
                 android:gravity="center_vertical"
                 android:textSize="14sp"
-                android:paddingStart="16dp"/>
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

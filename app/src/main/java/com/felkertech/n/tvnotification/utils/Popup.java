@@ -16,13 +16,14 @@ public class Popup {
     Notification generic;
     Notification pub;
     Notification.Action[] actions;
+    public static final String TAG = "tvnotification::Popup";
 
     //Attributes
     int order;
     int priority;
     int color;
     String category;
-    String title;
+    public String title;
     String publicTitle;
     String bigText;
     String publicBigText;
@@ -47,8 +48,8 @@ public class Popup {
     }
     public Popup(StatusBarNotification sbn, int order) {
         generic = sbn.getNotification();
-        priority = 0;
-        visibility = 0;
+        priority = PRIORITY_DEFAULT;
+        visibility = VISIBILITY_PRIVATE;
         color = R.color.accent_material_dark;
         category = "status";
         this.order = order;
@@ -70,6 +71,7 @@ public class Popup {
                 category = generic.category;
             } catch(Exception ignored) {}
         }
+        //TODO Try/Catch all
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -81,6 +83,7 @@ public class Popup {
                 if(generic.extras.containsKey(Notification.EXTRA_TITLE)) {
                     title = generic.extras.getCharSequence(Notification.EXTRA_TITLE).toString();
                     publicTitle = title;
+                    Log.d(TAG, title);
                 }
 //                Log.d("tvnotification", title+"  "+bigText);
                 if(bigText == null && generic.extras.containsKey(Notification.EXTRA_TEXT)) {
@@ -89,31 +92,37 @@ public class Popup {
                 }
 //                Log.d("tvnotification", title+"  "+bigText);
             } catch(Exception e) {
-                Log.d("tvnotification", e.getMessage());
+                Log.d(TAG, "KK "+e.getMessage());
             }
+
             try {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && pub != null) {
+                    Log.d("tvnotification", title+"w  "+bigText);
                     if(pub.extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
                         publicBigText = pub.extras.getCharSequence(Notification.EXTRA_BIG_TEXT).toString();
                     }
+                    Log.d("tvnotification", title+"x  "+bigText);
+                    if(pub.extras.containsKey(Notification.EXTRA_TITLE)) {
+                        publicTitle = pub.extras.getCharSequence(Notification.EXTRA_TITLE).toString();
+                    }
+                    Log.d("tvnotification", title+"y  "+bigText);
+                    if(publicBigText == null && pub.extras.containsKey(Notification.EXTRA_TEXT)) {
+                        publicBigText = pub.extras.getCharSequence(Notification.EXTRA_TEXT).toString();
+                    }
+                    Log.d("tvnotification", title+"z  "+bigText);
                 }
-                if(pub.extras.containsKey(Notification.EXTRA_TITLE)) {
-                    publicTitle = pub.extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-                }
-//                Log.d("tvnotification", title+"  "+bigText);
-                if(publicBigText == null && pub.extras.containsKey(Notification.EXTRA_TEXT)) {
-                    publicBigText = pub.extras.getCharSequence(Notification.EXTRA_TEXT).toString();
-                }
-//                Log.d("tvnotification", title+"  "+bigText);
             } catch(Exception e) {
-                Log.d("tvnotification", e.getMessage());
+                Log.d(TAG, "LP "+e.getMessage());
             }
             try {
                 actions = generic.actions;
             } catch(Exception e) {}
+            Log.d(TAG, "Done building "+title);
         }
+        Log.d(TAG, "Done building 2"+title);
     }
     public String toString() {
+        Log.d(TAG, title+"a  "+bigText);
         String s = order+" "+pack+"\n"+title+"; Priority "+priority+"; Category "+category+"\n"+bigText+"\n";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (hasActions()) {
@@ -128,6 +137,10 @@ public class Popup {
         if(actions == null)
             return false;
         return actions.length > 0;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     /**

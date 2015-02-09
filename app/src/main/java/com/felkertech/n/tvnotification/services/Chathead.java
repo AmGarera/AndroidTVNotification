@@ -23,7 +23,7 @@ import com.felkertech.n.tvnotification.utils.Alert;
 /**
  * Created by N on 2/8/2015.
  */
-public class Chathead extends IntentService {
+public class Chathead extends Service {
 
     private WindowManager windowManager;
     private View chatHead;
@@ -36,30 +36,30 @@ public class Chathead extends IntentService {
      * @param name Used to name the worker thread, important only for debugging.
      */
     public Chathead(String name) {
-        super(name);
+        //super(name);
     }
     public Chathead() {
-        super("Nope");
+        //super("Nope");
     }
 
     @Override public IBinder onBind(Intent intent) {
         // Not used
-        Log.d(TAG, intent.toString());
-        Log.d(TAG, "Incoming");
-        alert = new Alert(intent.getBundleExtra("VALUE"));
         return null;
     }
 
-    @Override
+
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, intent.toString());
-        Log.d(TAG, "Incoming");
-        alert = new Alert(intent.getBundleExtra("VALUE"));
+
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         int a = super.onStartCommand(intent,flags,startId);
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, intent.toString());
+        Log.d(TAG, "Incoming");
+        alert = new Alert(intent.getBundleExtra("VALUE"));
+        Log.d(TAG, alert.toString()+"");
+        Log.d(TAG, alert.getTitle()+"");
         post();
         return a;
     }
@@ -71,8 +71,8 @@ public class Chathead extends IntentService {
         //TODO Get SettingsManager, pick the proper layout
         if(true) {
             chatHead = LayoutInflater.from(this).inflate(R.layout.popup_honeycomb, null);
-            ((ImageView) chatHead.findViewById(R.id.notification_icon)).setImageResource(alert.getIcon());
-            ((TextView) chatHead.findViewById(R.id.notification_title)).setText(alert.getTitle());
+            /*((ImageView) chatHead.findViewById(R.id.notification_icon)).setImageResource(alert.getIcon());
+            ((TextView) chatHead.findViewById(R.id.notification_title)).setText(alert.getTitle());*/
         }
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
@@ -83,22 +83,25 @@ public class Chathead extends IntentService {
                 PixelFormat.TRANSLUCENT);
 
         params.gravity = Gravity.TOP | Gravity.LEFT;
+        Log.d(TAG, "w="+params.width);
         params.x = 0;
-        params.y = 100;
+        params.y = 0;
 
         windowManager.addView(chatHead, params);
         Handler killr = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message in) {
-                stopSelf();
+//                stopSelf();
             }
         };
-        killr.sendEmptyMessageDelayed(0, 10000);
+        //TODO Intro/Outro animations
+//        killr.sendEmptyMessageDelayed(0, 10000);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "Destroying head");
         if (chatHead != null) windowManager.removeView(chatHead);
     }
 }
