@@ -13,13 +13,15 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import com.felkertech.n.tvnotification.services.Chathead;
+import com.felkertech.n.tvnotification.utils.Alert;
 import com.felkertech.n.tvnotification.utils.Popup;
 
 import java.util.ArrayList;
 
 public class NotificationListener extends NotificationListenerService {
 
-    private String TAG = this.getClass().getSimpleName();
+    private String TAG = "tvnotification::"+this.getClass().getSimpleName();
     private NLServiceReceiver nlservicereciver;
     @Override
     public void onCreate() {
@@ -45,6 +47,11 @@ public class NotificationListener extends NotificationListenerService {
         i.putExtra("notification_event","onNotificationPosted :" + sbn.getPackageName() + "n");
         sendBroadcast(i);
 
+        Alert note = new Popup(sbn).publicAlert();
+
+        Intent popup = new Intent(getApplicationContext(), Chathead.class);
+        popup.putExtra("VALUE", note.toBundle());
+        startService(popup);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.felkertech.n.tvnotification.utils;
 
 import android.app.Notification;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 /**
  * Created by N on 1/16/2015.
@@ -27,6 +28,17 @@ public class Alert {
         this.actions = actions;
         this.icon = icon;
         this.bitmap = bitmap;
+    }
+    public Alert(Bundle stuff) {
+        title = stuff.getString("TITLE");
+        text = stuff.getString("TEXT");
+        color = stuff.getInt("COLOR");
+        priority = stuff.getInt("PRIORITY");
+        category = stuff.getString("CATEGORY");
+        visibility = stuff.getInt("VISIBILITY");
+//      stuff b.putParcelable("ACTIONS", actions);
+        icon = stuff.getInt("ICON");
+        bitmap = stuff.getParcelable("BITMAP");
     }
 
     public String getTitle() {
@@ -68,5 +80,19 @@ public class Alert {
         if(actions == null)
             return false;
         return actions.length > 0;
+    }
+    //TODO Actions are currently not supported
+    public Bundle toBundle() {
+        Bundle b = new Bundle();
+        b.putString("TITLE", title);
+        b.putString("TEXT", text);
+        b.putInt("COLOR", color);
+        b.putInt("PRIORITY", priority);
+        b.putString("CATEGORY", category);
+        b.putInt("VISIBILITY", visibility);
+//        b.putParcelable("ACTIONS", actions);
+        b.putInt("ICON", icon);
+        b.putParcelable("BITMAP", bitmap);
+        return b;
     }
 }
