@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TV Notification</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="ACCESSIBILITY_APP_ICON">App Icon</string>
+    <string name="BOILER_SAMPLE_NOTIFICATION_TEXT">Sample Notification Text</string>
+</resources>
