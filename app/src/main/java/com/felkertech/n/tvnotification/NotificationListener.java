@@ -48,7 +48,7 @@ public class NotificationListener extends NotificationListenerService {
         sendBroadcast(i);
         Log.d(TAG, ""+sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TITLE).toString());
         Popup p = new Popup(sbn);
-        Log.d(TAG, p.title+"");
+        Log.d(TAG, p.category+"-C");
         Log.d(TAG, p.toString());
         Alert note = p.publicAlert();
         Log.d(TAG, note.toString());

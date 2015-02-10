@@ -22,7 +22,7 @@ public class Popup {
     int order;
     int priority;
     int color;
-    String category;
+    public String category;
     public String title;
     String publicTitle;
     String bigText;
@@ -44,18 +44,19 @@ public class Popup {
     final static int VISIBILITY_SECRET = -1;
 
     public Popup(StatusBarNotification sbn) {
-        new Popup(sbn, 1);
+        this(sbn, 1);
     }
-    public Popup(StatusBarNotification sbn, int order) {
+    public Popup(StatusBarNotification sbn, int o) {
         generic = sbn.getNotification();
         priority = PRIORITY_DEFAULT;
         visibility = VISIBILITY_PRIVATE;
         color = R.color.accent_material_dark;
         category = "status";
-        this.order = order;
+        order = o;
         pack = sbn.getPackageName();
         icon = generic.icon;
         largeIcon = generic.largeIcon;
+        title = "5";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pub = sbn.getNotification().publicVersion;
             try {
@@ -152,6 +153,6 @@ public class Popup {
      * @return Alert object
      */
     public Alert publicAlert() {
-        return new Alert(publicTitle, publicBigText, color, priority, category, visibility, actions, icon, largeIcon);
+        return new Alert(pack, publicTitle, publicBigText, color, priority, category, visibility, actions, icon, largeIcon);
     }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
  * Created by N on 1/16/2015.
  */
 public class Alert {
+    private String packageName;
     private String title;
     private String text;
     private int color;
@@ -18,7 +19,8 @@ public class Alert {
     private Bitmap bitmap;
     private Notification.Action[] actions;
 
-    public Alert(String title, String text, int color, int priority, String category, int visibility, Notification.Action[] actions, int icon, Bitmap bitmap) {
+    public Alert(String packageName, String title, String text, int color, int priority, String category, int visibility, Notification.Action[] actions, int icon, Bitmap bitmap) {
+        this.packageName = packageName;
         this.title = title;
         this.text = text;
         this.color = color;
@@ -30,6 +32,7 @@ public class Alert {
         this.bitmap = bitmap;
     }
     public Alert(Bundle stuff) {
+        packageName = stuff.getString("PACKAGE_NAME");
         title = stuff.getString("TITLE");
         text = stuff.getString("TEXT");
         color = stuff.getInt("COLOR");
@@ -73,6 +76,10 @@ public class Alert {
         return bitmap;
     }
 
+    public String getPackageName() {
+        return packageName;
+    }
+
     public Notification.Action[] getActions() {
         return actions;
     }
@@ -84,6 +91,7 @@ public class Alert {
     //TODO Actions are currently not supported
     public Bundle toBundle() {
         Bundle b = new Bundle();
+        b.putString("PACKAGE_NAME", packageName);
         b.putString("TITLE", title);
         b.putString("TEXT", text);
         b.putInt("COLOR", color);
